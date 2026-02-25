@@ -1,0 +1,17 @@
+node_modules
+dist
+.env
+.env.local
+.env.*.local
+*.log
+.DS_Store
+package-lock.json
+yarn.lock
+.idea/
+.vscode/
+coverage/
+
+# Interview materials (for interviewers only)
+HINTS.md
+PROBLEM.md
+TASK.md
