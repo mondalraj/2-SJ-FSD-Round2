@@ -12,12 +12,8 @@ export class UsersService {
     private db: NodePgDatabase<typeof schema>,
   ) {}
 
-  // BUG: This method causes N+1 queries
-  // It fetches all users first, then queries for posts of each user separately
   async findAllWithPosts() {
     const allUsers = await this.db.select().from(users);
-
-    // This loop causes N additional queries (one per user)
     for (const user of allUsers) {
       const userPosts = await this.db.select().from(posts).where(eq(posts.userId, user.id));
       (user as any).posts = userPosts;
@@ -25,13 +21,4 @@ export class UsersService {
 
     return allUsers;
   }
-
-  // CORRECT approach (not implemented - candidate needs to add this)
-  // async findAllWithPostsOptimized() {
-  //   return this.db.query.users.findMany({
-  //     with: {
-  //       posts: true,
-  //     },
-  //   });
-  // }
 }
